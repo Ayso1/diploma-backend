@@ -22,7 +22,14 @@ const Person = sequelize.define('Person', {
         allowNull: true
     },
 });
+const Categorie = sequelize.define('Categorie', {
+    name: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+});
 module.exports = {
     sequelize: sequelize,
-    Person: Person
+    Person: Person,
+    Categorie: Categorie
 };
