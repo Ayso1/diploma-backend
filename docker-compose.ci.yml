@@ -10,10 +10,10 @@ services:
     ports: 
       - '5432:5432'
     volumes:
-      - addressbook-db:/var/lib/postgresql/data
+      - myserver-db:/var/lib/postgresql/data
 
-  addressbook:
-    image: $DOCKER_USERNAME/dockerizing-nodejs-addressbook:latest
+  myserver:
+    image: $DOCKER_USERNAME/dockerizing-nodejs-myserver:latest
     command: "npm run migrate && npm run pm2"
     environment:
       DB_SCHEMA: postgres
@@ -26,5 +26,5 @@ services:
       - '3000:3000'
         
 volumes:
-  addressbook-db:
+  myserver-db:
 

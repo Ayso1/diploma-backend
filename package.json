@@ -1,9 +1,10 @@
 {
-  "name": "addressbook",
+  "name": "myserver",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "pm2": "pm2 start processes.json --no-daemon",
+    "dev": "pm2 start processes.json --no-daemon --watch",
     "start": "node ./bin/www",
     "test": "jest",
     "migrate": "node ./bin/migrate.js"

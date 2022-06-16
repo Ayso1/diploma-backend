@@ -7,9 +7,16 @@
             "max_restarts": 20,
             "instances": 4,
             "max_memory_restart": "200M",
+            
+            "ignore_watch" : ["node_modules"],
             "env": {
                 "PORT": 3000,
-                "NODE_ENV": "production"
+                "NODE_ENV": "production",
+                "DB_SCHEMA": "postgres",
+                "DB_USER": "postgres",
+                "DB_PASSWORD": "postgres",
+                "DB_HOST": "localhost",
+                "DB_PORT": 5432
             }
         }
     ]

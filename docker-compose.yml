@@ -8,9 +8,9 @@ services:
     ports: 
       - '5432:5432'
     volumes:
-      - addressbook-db:/var/lib/postgresql/data
+      - myserver-db:/var/lib/postgresql/data
 
-  addressbook:
+  myserver:
     build:
       context: .
     environment:
@@ -24,4 +24,4 @@ services:
       - '3000:3000'
         
 volumes:
-  addressbook-db:
+  myserver-db:
