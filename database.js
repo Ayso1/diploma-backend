@@ -11,24 +11,38 @@ const sequelize = new Sequelize(process.env.DB_SCHEMA || 'postgres',
                                         ssl: process.env.DB_SSL == "true"
                                     }
                                 });
-const Person = sequelize.define('Person', {
-    firstName: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    lastName: {
-        type: Sequelize.STRING,
-        allowNull: true
-    },
-});
+
 const Categorie = sequelize.define('Categorie', {
     name: {
         type: Sequelize.STRING,
         allowNull: false
     },
 });
+const User = sequelize.define('User', {
+    email: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    password: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    isEmailVerified: {
+        type: Sequelize.BOOLEAN
+    },
+    firstName: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    lastName: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+});
+
+
 module.exports = {
     sequelize: sequelize,
-    Person: Person,
-    Categorie: Categorie
+    Categorie: Categorie,
+    User: User
 };
