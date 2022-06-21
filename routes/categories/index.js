@@ -10,18 +10,7 @@ router.put('/:id', editCategory);
 //get by id
 router.get("/:id", getByID);
 //post test query
-router.post("/", function(reg,res){
-    db.Categorie.create({
-        name: 'Test',
-        id: 1
-        })
-        .then( categories => {
-            res.status(200).send(JSON.stringify(categories));
-        })
-        .catch( err => {
-            res.status(500).send(JSON.stringify(err));
-        })
-});
+router.post("/", postOne);
 //delete by id
 router.delete("/:id", deleteByID);
 

@@ -7,8 +7,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var categoriesRouter = require('./routes/categories');
 
-// add the following line near the indexRouter
-var personsRouter = require('./routes/persons');
+
 
 var app = express();
 
@@ -18,14 +17,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/persons', personsRouter);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/categories', categoriesRouter);
 
 
-// add the following line near app.use indexRouter
-//app.use('/persons', personsRouter);
+
 
 
 module.exports = app;
