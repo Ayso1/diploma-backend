@@ -1,12 +1,18 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
-var db = require('../../database');
-var { editUser, getAllUser, getByID, postOne, deleteByID } = require('./controller');
+var db = require("../../database");
+var {
+  editUser,
+  getAllUser,
+  getByID,
+  postOne,
+  deleteByID,
+} = require("./controller");
 
 /* GET users listing. */
-router.get('/', getAllUser);
+router.get("/", getAllUser);
 //put one
-router.put('/:id', editUser);
+router.put("/:id", editUser);
 //get by id
 router.get("/:id", getByID);
 //post test query
