@@ -2,17 +2,17 @@ var express = require('express')
 var router = express.Router()
 var db = require('../../database')
 var {
-  editCategory,
-  getAllCategorie,
+  editCharity,
+  getAllCharity,
   getByID,
   postOne,
   deleteByID
 } = require('./controller')
 
 /* GET users listing. */
-router.get('/', getAllCategorie)
+router.get('/', getAllCharity)
 //put one
-router.put('/:id', editCategory)
+router.put('/:id', editCharity)
 //get by idы
 router.get('/:id', getByID)
 //post test query
