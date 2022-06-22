@@ -1,11 +1,11 @@
 var db = require('../../database')
 
-async function editCategory(req, res, next) {
+async function editCharity(req, res, next) {
   try {
     console.log(req.params)
-    const original = await db.Categorie.findByPk(req.params.id)
+    const original = await db.Charity.findByPk(req.params.id)
 
-    await db.Categorie.update(
+    await db.Charity.update(
       {
         ...original.dataValues,
         ...req.body
@@ -13,44 +13,46 @@ async function editCategory(req, res, next) {
       { where: { id: req.params.id } }
     )
 
-    const updatedObject = await db.Categorie.findByPk(req.params.id)
+    const updatedObject = await db.Charity.findByPk(req.params.id)
     res.json(updatedObject)
   } catch (err) {
     res.status(500).send(JSON.stringify(err))
   }
 }
-async function getAllCategorie(reg, res) {
-  db.Categorie.findAll()
-    .then(categories => {
-      res.status(200).send(JSON.stringify(categories))
+async function getAllCharity(reg, res) {
+  db.Charity.findAll()
+    .then(charity => {
+      res.status(200).send(JSON.stringify(charity))
     })
     .catch(err => {
       res.status(500).send(JSON.stringify(err))
     })
 }
 async function getByID(req, res) {
-  db.Categorie.findByPk(req.params.id)
-    .then(categories => {
-      res.status(200).send(JSON.stringify(categories))
+  db.Charity.findByPk(req.params.id)
+    .then(charity => {
+      res.status(200).send(JSON.stringify(charity))
     })
     .catch(err => {
       res.status(500).send(JSON.stringify(err))
     })
 }
 async function postOne(reg, res) {
-  db.Categorie.create({
-    name: 'Test',
+  db.Charity.create({
+    title: 'Test',
+    photos: '{{baseurl}}/categorie/1',
+    descriptions: 'Description of test charity.',
     id: 1
   })
-    .then(categories => {
-      res.status(200).send(JSON.stringify(categories))
+    .then(charity => {
+      res.status(200).send(JSON.stringify(charity))
     })
     .catch(err => {
       res.status(500).send(JSON.stringify(err))
     })
 }
 async function deleteByID(req, res) {
-  db.Categorie.destroy({
+  db.Charity.destroy({
     where: {
       id: req.params.id
     }
@@ -64,8 +66,8 @@ async function deleteByID(req, res) {
 }
 
 module.exports = {
-  editCategory,
-  getAllCategorie,
+  editCharity,
+  getAllCharity,
   getByID,
   postOne,
   deleteByID
