@@ -51,8 +51,33 @@ const Charity = sequelize.define('Charity', {
   },
   descriptions: {
     type: Sequelize.STRING
+  },
+  UserId: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'Users',
+      key: 'id'
+    },
+    onDelete: 'CASCADE'
+  },
+  CategorieId: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'Categories',
+      key: 'id'
+    },
+    onDelete: 'CASCADE'
   }
 })
+//relations
+//one to many User and Charity
+User.hasMany(Charity)
+Charity.belongsTo(User)
+//one to many Charity and Categorie
+Categorie.hasMany(Charity)
+Charity.belongsTo(Categorie)
 
 module.exports = {
   sequelize: sequelize,
