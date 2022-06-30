@@ -20,7 +20,9 @@ async function editCharity(req, res, next) {
   }
 }
 async function getAllCharity(reg, res) {
-  db.Charity.findAll()
+  db.Charity.findAll({
+    include: [models.Catergorie, models.User]
+  })
     .then(charity => {
       res.status(200).send(JSON.stringify(charity))
     })
@@ -37,11 +39,22 @@ async function getByID(req, res) {
       res.status(500).send(JSON.stringify(err))
     })
 }
+async function getByCategorie(req, res) {
+  db.Charity.findByPk(req.params.CategorieId)
+    .then(charity => {
+      res.status(200).send(JSON.stringify(charity))
+    })
+    .catch(err => {
+      res.status(500).send(JSON.stringify(err))
+    })
+}
 async function postOne(reg, res) {
   db.Charity.create({
     title: 'Test',
     photos: '{{baseurl}}/categorie/1',
     descriptions: 'Description of test charity.',
+    UserId: 1,
+    CategorieId: 1,
     id: 1
   })
     .then(charity => {
