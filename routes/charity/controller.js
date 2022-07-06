@@ -20,7 +20,47 @@ async function editCharity(req, res, next) {
   }
 }
 async function getAllCharity(reg, res) {
-  db.Charity.findAll()
+  const c = await db.Charity.findAll({
+    include: [
+      {
+        model: db.User,
+        attributes: ['firstName', 'lastName']
+      },
+      {
+        model: db.Categorie,
+        attributes: ['name']
+      }
+    ]
+  })
+    .then(c => {
+      res.status(200).send(JSON.stringify(c))
+    })
+    .catch(err => {
+      res.status(500).send(JSON.stringify(err))
+    })
+}
+//async function getAllCharity(reg, res) {
+//  db.Charity.findAll()
+//    .then(charity => {
+//      res.status(200).send(JSON.stringify(charity))
+//    })
+//    .catch(err => {
+//      res.status(500).send(JSON.stringify(err))
+//    })
+//}
+async function getByID(req, res) {
+  db.Charity.findByPk(req.params.id, {
+    include: [
+      {
+        model: db.User,
+        attributes: ['firstName', 'lastName']
+      },
+      {
+        model: db.Categorie,
+        attributes: ['name']
+      }
+    ]
+  })
     .then(charity => {
       res.status(200).send(JSON.stringify(charity))
     })
@@ -28,8 +68,20 @@ async function getAllCharity(reg, res) {
       res.status(500).send(JSON.stringify(err))
     })
 }
-async function getByID(req, res) {
-  db.Charity.findByPk(req.params.id)
+async function getByCategorie(req, res) {
+  db.Charity.findOne({
+    where: { CategorieId: req.params.id },
+    include: [
+      {
+        model: db.User,
+        attributes: ['firstName', 'lastName']
+      },
+      {
+        model: db.Categorie,
+        attributes: ['name']
+      }
+    ]
+  })
     .then(charity => {
       res.status(200).send(JSON.stringify(charity))
     })
@@ -42,6 +94,8 @@ async function postOne(reg, res) {
     title: 'Test',
     photos: '{{baseurl}}/categorie/1',
     descriptions: 'Description of test charity.',
+    UserId: 1,
+    CategorieId: 1,
     id: 1
   })
     .then(charity => {
@@ -68,6 +122,7 @@ async function deleteByID(req, res) {
 module.exports = {
   editCharity,
   getAllCharity,
+  getByCategorie,
   getByID,
   postOne,
   deleteByID
