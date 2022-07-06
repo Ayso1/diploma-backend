@@ -6,15 +6,18 @@ var {
   getAllCharity,
   getByID,
   postOne,
-  deleteByID
+  deleteByID,
+  getByCategorie
 } = require('./controller')
 
 /* GET users listing. */
 router.get('/', getAllCharity)
 //put one
 router.put('/:id', editCharity)
-//get by idы
+//get by id
 router.get('/:id', getByID)
+//get by categorie id
+router.get('/categorie/:id', getByCategorie)
 //post test query
 router.post('/', postOne)
 //delete by id
