@@ -253,6 +253,25 @@
 					"response": []
 				},
 				{
+					"name": "get by categorie id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/charity/categorie/1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"charity",
+								"categorie",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "put one",
 					"request": {
 						"method": "PUT",
