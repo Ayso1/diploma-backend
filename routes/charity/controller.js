@@ -20,44 +20,41 @@ async function editCharity(req, res, next) {
   }
 }
 async function getAllCharity(reg, res) {
-  const c = await db.Charity.findAll({
+  db.Charity.findAll({
+    attributes: { exclude: ['userId', 'categorieId'] },
     include: [
       {
         model: db.User,
-        attributes: ['firstName', 'lastName']
+        as: 'user',
+        attributes: ['id', 'firstName', 'lastName', 'createdAt', 'updatedAt']
       },
       {
         model: db.Categorie,
-        attributes: ['name']
+        as: 'categorie',
+        attributes: ['id', 'name', 'createdAt', 'updatedAt']
       }
     ]
   })
-    .then(c => {
-      res.status(200).send(JSON.stringify(c))
+    .then(charity => {
+      res.status(200).send(JSON.stringify(charity))
     })
     .catch(err => {
       res.status(500).send(JSON.stringify(err))
     })
 }
-//async function getAllCharity(reg, res) {
-//  db.Charity.findAll()
-//    .then(charity => {
-//      res.status(200).send(JSON.stringify(charity))
-//    })
-//    .catch(err => {
-//      res.status(500).send(JSON.stringify(err))
-//    })
-//}
 async function getByID(req, res) {
   db.Charity.findByPk(req.params.id, {
+    attributes: { exclude: ['userId', 'categorieId'] },
     include: [
       {
         model: db.User,
-        attributes: ['firstName', 'lastName']
+        as: 'user',
+        attributes: ['id', 'firstName', 'lastName', 'createdAt', 'updatedAt']
       },
       {
         model: db.Categorie,
-        attributes: ['name']
+        as: 'categorie',
+        attributes: ['id', 'name', 'createdAt', 'updatedAt']
       }
     ]
   })
@@ -70,15 +67,18 @@ async function getByID(req, res) {
 }
 async function getByCategorie(req, res) {
   db.Charity.findOne({
-    where: { CategorieId: req.params.id },
+    where: { categorieId: req.params.id },
+    attributes: { exclude: ['userId', 'categorieId'] },
     include: [
       {
         model: db.User,
-        attributes: ['firstName', 'lastName']
+        as: 'user',
+        attributes: ['id', 'firstName', 'lastName', 'createdAt', 'updatedAt']
       },
       {
         model: db.Categorie,
-        attributes: ['name']
+        as: 'categorie',
+        attributes: ['id', 'name', 'createdAt', 'updatedAt']
       }
     ]
   })
@@ -94,8 +94,8 @@ async function postOne(reg, res) {
     title: 'Test',
     photos: '{{baseurl}}/categorie/1',
     descriptions: 'Description of test charity.',
-    UserId: 1,
-    CategorieId: 1,
+    userId: 1,
+    categorieId: 1,
     id: 1
   })
     .then(charity => {

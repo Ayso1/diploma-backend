@@ -1,7 +1,5 @@
 // database.js
-//const dotenv = require('dotenv')
 require('dotenv').config()
-//console.log(process.env)
 const Sequelize = require('sequelize')
 const sequelize = new Sequelize(
   process.env.DB_SCHEMA || 'postgres',
@@ -54,33 +52,16 @@ const Charity = sequelize.define('Charity', {
   },
   descriptions: {
     type: Sequelize.STRING
-  } //,
-  //userId: {
-  //  type: Sequelize.INTEGER,
-  //  allowNull: false,
-  //  references: {
-  //    model: 'Users',
-  //    key: 'id'
-  //  },
-  //  onDelete: 'CASCADE'
-  //},
-  //categorieId: {
-  //  type: Sequelize.INTEGER,
-  //  allowNull: false,
-  //  references: {
-  //    model: 'Categories',
-  //    key: 'id'
-  //  },
-  //  onDelete: 'CASCADE'
-  //}
+  }
 })
+
 //relations
 //one to many User and Charity
-User.hasMany(Charity)
-Charity.belongsTo(User)
+Charity.belongsTo(User, { as: 'user', foreignKey: 'userId' })
+User.hasMany(Charity, { foreignKey: 'userId' })
 //one to many Charity and Categorie
-Categorie.hasMany(Charity)
-Charity.belongsTo(Categorie)
+Charity.belongsTo(Categorie, { as: 'categorie', foreignKey: 'categorieId' })
+Categorie.hasMany(Charity, { foreignKey: 'categorieId' })
 
 module.exports = {
   sequelize: sequelize,
