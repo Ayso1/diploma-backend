@@ -45,7 +45,7 @@ async function getAllCharity(req, res) {
     options.limit = +limit
   }
   if (offset) {
-    options.offset = +limit
+    options.offset = +offset
   }
   const dbQuery = db.Charity.findAll({
     attributes: { exclude: ['userId', 'categorieId'] },
