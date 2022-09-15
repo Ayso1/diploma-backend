@@ -36,14 +36,9 @@ async function getByID(req, res) {
       res.status(500).send(JSON.stringify(err))
     })
 }
-async function postOne(reg, res) {
+async function postOne(req, res) {
   db.User.create({
-    email: 'test@test.com',
-    password: '12345678',
-    isEmailVerified: false,
-    firstName: 'Alex',
-    lastName: 'Tixin',
-    id: 1
+    ...req.body
   })
     .then(user => {
       res.status(200).send(JSON.stringify(user))
