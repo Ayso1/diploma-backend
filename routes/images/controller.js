@@ -11,7 +11,7 @@ const accessKeyId = process.env.AWS_ACCESS_KEY
 const secretAccessKey = process.env.AWS_SECRET_KEY
 const region = process.env.AWS_BUCKET_REGION
 const bucketName = process.env.AWS_BUCKET_NAME
-console.log(region, 'region')
+
 // Create S3 service object
 const s3 = new S3({
   region,
@@ -32,7 +32,7 @@ async function uploadPhoto(file) {
   }
   return s3.upload(uploadParams).promise()
 }
-async function getPhoto(req, res) {
+async function postPhoto(req, res) {
   try {
     var data = await uploadPhoto(file1)
     console.log('Success', data)
@@ -41,5 +41,21 @@ async function getPhoto(req, res) {
     console.log('Error', err)
   }
 }
+async function downloadPhoto(filename) {
+  const downloadParams = {
+    Key: filename,
+    Bucket: bucketName
+  }
+  return s3.getObject(downloadParams).createReadStream()
+}
 
-module.exports = { getPhoto }
+async function getPhoto(req, res) {
+  try {
+    var data = await downloadPhoto('test1.png')
+    console.log('Success', data)
+    return data // For unit tests.
+  } catch (err) {
+    console.log('Error', err)
+  }
+}
+module.exports = { postPhoto, getPhoto }
