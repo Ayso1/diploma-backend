@@ -19,34 +19,43 @@ const s3 = new S3({
   secretAccessKey
 })
 
-const file1 = 'routes/images/uploads/test2.png' // Path to and name of object. For example '../myFiles/index.js'.
-
 async function uploadPhoto(file) {
-  const fileStream = fs.createReadStream(file)
+  var currentdate = new Date()
+  var datetime =
+    currentdate.getFullYear() +
+    '+' +
+    (currentdate.getMonth() + 1) +
+    '+' +
+    currentdate.getDate() +
+    '@' +
+    currentdate.getHours() +
+    ':' +
+    currentdate.getMinutes() +
+    ':' +
+    currentdate.getSeconds()
+  //const fileStream = fs.createReadStream(file)
   const uploadParams = {
     Bucket: bucketName,
     // Add the required 'Key' parameter using the 'path' module.
-    Key: path.basename(file),
+    Key: datetime,
     // Add the required 'Body' parameter
-    Body: fileStream
+    Body: file,
+    ContentEncoding: 'base64',
+    ContentType: 'image/jpeg'
   }
   return s3.upload(uploadParams).promise()
 }
-async function postPhoto(req, res) {
-  try {
-    var data = await uploadPhoto(file1)
-    console.log('Success', data)
-    return data // For unit tests.
-  } catch (err) {
-    console.log('Error', err)
+
+async function deletePhoto(filename) {
+  const deleteParams = {
+    Bucket: bucketName,
+    Key: filename
   }
-}
-async function downloadPhoto(filename) {
-  const downloadParams = {
-    Key: filename,
-    Bucket: bucketName
-  }
-  return s3.getObject(downloadParams).createReadStream()
+  const deletePhoto = s3.deleteObject(deleteParams, function (err, data) {
+    if (err) console.log(err, err.stack) // an error occurred
+    // successful response
+  })
+  return deletePhoto
 }
 
 async function getPhoto(req, res) {
@@ -58,4 +67,4 @@ async function getPhoto(req, res) {
     console.log('Error', err)
   }
 }
-module.exports = { postPhoto, getPhoto }
+module.exports = { getPhoto, uploadPhoto, deletePhoto }

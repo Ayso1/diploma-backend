@@ -24,6 +24,7 @@ async function getAllCharity(req, res) {
   console.log(req.query.filterByCategoriesId)
   const {
     filterByCategoriesId,
+    filterByUsersId,
     limit,
     offset,
     sortBy = 'id',
@@ -41,6 +42,15 @@ async function getAllCharity(req, res) {
       [Op.in]: categoriesId
     }
   }
+  if (filterByUsersId) {
+    const usersId = Array.isArray(filterByUsersId)
+      ? filterByUsersId.map(id => +id)
+      : [+filterByUsersId]
+    options.where.userId = {
+      [Op.in]: usersId
+    }
+  }
+
   if (limit) {
     options.limit = +limit
   }
@@ -53,7 +63,14 @@ async function getAllCharity(req, res) {
       {
         model: db.User,
         as: 'user',
-        attributes: ['id', 'firstName', 'lastName', 'createdAt', 'updatedAt']
+        attributes: [
+          'id',
+          'firstName',
+          'lastName',
+          'createdAt',
+          'updatedAt',
+          'email'
+        ]
       },
       {
         model: db.Categorie,
@@ -83,7 +100,14 @@ async function getByID(req, res) {
       {
         model: db.User,
         as: 'user',
-        attributes: ['id', 'firstName', 'lastName', 'createdAt', 'updatedAt']
+        attributes: [
+          'id',
+          'firstName',
+          'lastName',
+          'createdAt',
+          'updatedAt',
+          'email'
+        ]
       },
       {
         model: db.Categorie,
@@ -99,20 +123,18 @@ async function getByID(req, res) {
       res.status(500).send(JSON.stringify(err))
     })
 }
-async function postOne(reg, res) {
+
+async function postOne(req, res) {
+  console.log(req.body)
   db.Charity.create({
-    title: 'Test',
-    photos: '{{baseurl}}/categorie/1',
-    descriptions: 'Description of test charity.',
-    userId: 1,
-    categorieId: 1,
-    id: 1
+    ...req.body
   })
     .then(charity => {
       res.status(200).send(JSON.stringify(charity))
     })
     .catch(err => {
       res.status(500).send(JSON.stringify(err))
+      console.log(err)
     })
 }
 async function deleteByID(req, res) {
