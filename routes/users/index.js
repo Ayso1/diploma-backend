@@ -6,7 +6,10 @@ var {
   getAllUser,
   getByID,
   postOne,
-  deleteByID
+  deleteByID,
+  sendEmail,
+
+  verifyToken
 } = require('./controller')
 
 /* GET users listing. */
@@ -19,5 +22,11 @@ router.get('/:id', getByID)
 router.post('/', postOne)
 //delete by id
 router.delete('/:id', deleteByID)
+
+router.post('/email', sendEmail)
+
+router.post('/welcome', verifyToken, (reg, res) => {
+  res.status(200).send('Welcome 🙌 ')
+})
 
 module.exports = router

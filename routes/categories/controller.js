@@ -39,8 +39,8 @@ async function getByID(req, res) {
 }
 async function postOne(reg, res) {
   db.Categorie.create({
-    name: 'Test',
-    id: 1
+    name: 'Requests for help',
+    id: 9
   })
     .then(categories => {
       res.status(200).send(JSON.stringify(categories))

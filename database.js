@@ -40,6 +40,9 @@ const User = sequelize.define('User', {
   lastName: {
     type: Sequelize.STRING,
     allowNull: false
+  },
+  token: {
+    type: Sequelize.STRING
   }
 })
 const Charity = sequelize.define('Charity', {
@@ -48,9 +51,12 @@ const Charity = sequelize.define('Charity', {
     allowNull: false
   },
   photos: {
-    type: Sequelize.STRING
+    type: Sequelize.JSON
   },
   descriptions: {
+    type: Sequelize.STRING
+  },
+  contacts: {
     type: Sequelize.STRING
   }
 })
